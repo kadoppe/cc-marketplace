@@ -1,0 +1,15 @@
+# Node modules
+node_modules/
+
+# Configuration files (sensitive)
+plugins/*/config.json
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

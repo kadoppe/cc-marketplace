@@ -1,0 +1,11 @@
+{
+  "name": "obsidian-logger",
+  "version": "0.1.0",
+  "description": "Claude Codeの作業内容をObsidianのDaily Noteに自動記録するプラグイン",
+  "author": "kadoppe",
+  "commands": [],
+  "agents": [],
+  "hooks": "./hooks/hooks.json",
+  "skills": [],
+  "mcp": []
+}

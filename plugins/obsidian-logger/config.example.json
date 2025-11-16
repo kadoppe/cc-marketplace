@@ -1,0 +1,8 @@
+{
+  "obsidianVaultPath": "/path/to/your/obsidian/vault",
+  "dailyNotesPath": "Daily Notes",
+  "dateFormat": "YYYY-MM-DD",
+  "templateHeader": "\n\n## Claude Code Session - {{timestamp}}\n\n",
+  "includeWorkingDirectory": true,
+  "includeGitBranch": true
+}

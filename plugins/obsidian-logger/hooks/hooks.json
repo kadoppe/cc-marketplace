@@ -1,0 +1,13 @@
+{
+  "Stop": [
+    {
+      "matcher": ".*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node ${CLAUDE_PLUGIN_ROOT}/scripts/append-to-daily-note.js"
+        }
+      ]
+    }
+  ]
+}
