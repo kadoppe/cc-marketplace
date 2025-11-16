@@ -61,8 +61,12 @@ Edit `config.json` to configure your Obsidian vault path and other settings:
 ### 4. Grant Execute Permission to Script
 
 ```bash
-chmod +x ~/.claude/plugins/obsidian-logger/scripts/append-to-daily-note.js
+chmod +x ~/.claude/plugins/obsidian-logger/scripts/append-to-daily-note.py
 ```
+
+## Requirements
+
+- **Python 3.7+** (pre-installed on macOS 12.3 and later)
 
 ## Usage
 
@@ -93,7 +97,7 @@ Created plugin template.
 
 Core functionality is extracted to the `scripts/` directory:
 
-- `append-to-daily-note.js`: Main script that handles appending to Daily Notes
+- `append-to-daily-note.py`: Main script that handles appending to Daily Notes
 
 ### Manual Execution
 
@@ -101,10 +105,10 @@ Scripts can also be executed manually:
 
 ```bash
 # Specify summary as an argument
-node scripts/append-to-daily-note.js "Work summary"
+python3 scripts/append-to-daily-note.py "Work summary"
 
 # Read summary from standard input
-echo "Work summary" | node scripts/append-to-daily-note.js
+echo "Work summary" | python3 scripts/append-to-daily-note.py
 ```
 
 ## Troubleshooting
@@ -140,9 +144,8 @@ obsidian-logger/
 ├── hooks/
 │   └── hooks.json           # Hook configuration
 ├── scripts/                 # Scripts
-│   └── append-to-daily-note.js  # Main processing
+│   └── append-to-daily-note.py  # Main processing
 ├── config.example.json      # Sample configuration file
-├── package.json             # npm configuration
 └── README.md                # This file
 ```
 
@@ -158,7 +161,7 @@ This plugin defines a Stop hook in `hooks/hooks.json` as follows:
       "hooks": [
         {
           "type": "command",
-          "command": "node ${CLAUDE_PLUGIN_ROOT}/scripts/append-to-daily-note.js"
+          "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/append-to-daily-note.py"
         }
       ]
     }

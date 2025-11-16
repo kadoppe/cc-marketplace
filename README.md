@@ -90,9 +90,8 @@ cc-marketplace/
         ├── hooks/
         │   └── hooks.json    # Hook configuration
         ├── scripts/          # Scripts
-        │   └── append-to-daily-note.js  # Main processing
+        │   └── append-to-daily-note.py  # Main processing
         ├── config.example.json  # Sample configuration file
-        ├── package.json      # npm configuration
         └── README.md         # Plugin documentation
 ```
 
