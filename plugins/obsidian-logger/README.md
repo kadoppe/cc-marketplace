@@ -1,42 +1,42 @@
 # Obsidian Logger Plugin
 
-Claude Codeの作業内容をObsidianのDaily Noteに自動記録するプラグインです。
+A plugin that automatically logs Claude Code work sessions to Obsidian Daily Notes.
 
-## 概要
+## Overview
 
-このプラグインは、Claude Codeのセッションが終了したときに、Stop hookを使って作業内容を自動的にObsidianのDaily Noteに追記します。
+This plugin automatically appends work summaries to Obsidian Daily Notes using a Stop hook when Claude Code sessions end.
 
-## 機能
+## Features
 
-- **Stop Hook**: Claude Code終了時に自動実行
-- **Daily Note連携**: Obsidian vaultのDaily Noteに作業内容を追記
-- **柔軟な設定**: Vault パス、Daily Notes フォルダ、日付フォーマットなどをカスタマイズ可能
-- **Git情報の記録**: 作業ディレクトリとGitブランチを自動記録（オプション）
+- **Stop Hook**: Automatically executes when Claude Code ends
+- **Daily Note Integration**: Appends work summaries to Daily Notes in your Obsidian vault
+- **Flexible Configuration**: Customize vault path, Daily Notes folder, date format, and more
+- **Git Information Recording**: Automatically records working directory and Git branch (optional)
 
-## インストール
+## Installation
 
-### 1. マーケットプレイスからインストール
+### 1. Install from Marketplace
 
 ```bash
-# マーケットプレイスを追加（初回のみ）
+# Add the marketplace (first time only)
 /plugin marketplace add /Users/kadoppe/Sources/github.com/kadoppe/cc-marketplace
 
-# プラグインをインストール
+# Install the plugin
 /plugin install obsidian-logger@cc-marketplace
 ```
 
-### 2. 設定ファイルの作成
+### 2. Create Configuration File
 
-プラグインディレクトリに`config.json`を作成します：
+Create a `config.json` file in the plugin directory:
 
 ```bash
 cd ~/.claude/plugins/obsidian-logger
 cp config.example.json config.json
 ```
 
-### 3. 設定ファイルの編集
+### 3. Edit Configuration File
 
-`config.json`を編集して、Obsidian vaultのパスなどを設定します：
+Edit `config.json` to configure your Obsidian vault path and other settings:
 
 ```json
 {
@@ -49,33 +49,33 @@ cp config.example.json config.json
 }
 ```
 
-#### 設定項目
+#### Configuration Options
 
-- `obsidianVaultPath`: Obsidian vaultの絶対パス（**必須**）
-- `dailyNotesPath`: Daily Notesフォルダのパス（vaultからの相対パス）
-- `dateFormat`: 日付フォーマット（デフォルト: `YYYY-MM-DD`）
-- `templateHeader`: セッション記録のヘッダーテンプレート
-- `includeWorkingDirectory`: 作業ディレクトリを記録するか（デフォルト: `true`）
-- `includeGitBranch`: Gitブランチを記録するか（デフォルト: `true`）
+- `obsidianVaultPath`: Absolute path to your Obsidian vault (**required**)
+- `dailyNotesPath`: Path to Daily Notes folder (relative to vault)
+- `dateFormat`: Date format (default: `YYYY-MM-DD`)
+- `templateHeader`: Header template for session records
+- `includeWorkingDirectory`: Whether to record working directory (default: `true`)
+- `includeGitBranch`: Whether to record Git branch (default: `true`)
 
-### 4. スクリプトに実行権限を付与
+### 4. Grant Execute Permission to Script
 
 ```bash
 chmod +x ~/.claude/plugins/obsidian-logger/scripts/append-to-daily-note.js
 ```
 
-## 使用方法
+## Usage
 
-プラグインをインストールして設定が完了すると、Claude Codeのセッションを終了するたびに、自動的にObsidianのDaily Noteに作業内容が記録されます。
+Once the plugin is installed and configured, work summaries are automatically recorded to Obsidian Daily Notes whenever you end a Claude Code session.
 
-### 記録される情報
+### Recorded Information
 
-- セッションのタイムスタンプ
-- 作業ディレクトリ（設定により有効な場合）
-- Gitブランチ（設定により有効な場合）
-- 作業内容のサマリー
+- Session timestamp
+- Working directory (if enabled in configuration)
+- Git branch (if enabled in configuration)
+- Work summary
 
-### 記録例
+### Example Record
 
 ```markdown
 ## Claude Code Session - 2025/11/16 14:30:15
@@ -84,71 +84,71 @@ chmod +x ~/.claude/plugins/obsidian-logger/scripts/append-to-daily-note.js
 
 **Git Branch:** `feature/new-feature`
 
-プラグインの雛形を作成しました。
+Created plugin template.
 
 ---
 ```
 
-## スクリプト
+## Scripts
 
-基本的な機能は`scripts/`ディレクトリに切り出されています：
+Core functionality is extracted to the `scripts/` directory:
 
-- `append-to-daily-note.js`: Daily Noteへの追記処理を行うメインスクリプト
+- `append-to-daily-note.js`: Main script that handles appending to Daily Notes
 
-### 手動実行
+### Manual Execution
 
-スクリプトは手動でも実行できます：
+Scripts can also be executed manually:
 
 ```bash
-# 引数でサマリーを指定
-node scripts/append-to-daily-note.js "作業内容のサマリー"
+# Specify summary as an argument
+node scripts/append-to-daily-note.js "Work summary"
 
-# 標準入力からサマリーを読み込み
-echo "作業内容のサマリー" | node scripts/append-to-daily-note.js
+# Read summary from standard input
+echo "Work summary" | node scripts/append-to-daily-note.js
 ```
 
-## トラブルシューティング
+## Troubleshooting
 
-### Daily Noteが作成されない
+### Daily Note Not Created
 
-- `config.json`の`obsidianVaultPath`が正しいか確認してください
-- ファイルシステムの書き込み権限があるか確認してください
+- Check that `obsidianVaultPath` in `config.json` is correct
+- Verify you have filesystem write permissions
 
-### Gitブランチが記録されない
+### Git Branch Not Recorded
 
-- 作業ディレクトリがGitリポジトリかどうか確認してください
-- `config.json`で`includeGitBranch`が`true`になっているか確認してください
+- Verify the working directory is a Git repository
+- Check that `includeGitBranch` is set to `true` in `config.json`
 
-## 開発
+## Development
 
-### プラグインの更新
+### Updating the Plugin
 
 ```bash
-# アンインストール
+# Uninstall
 /plugin uninstall obsidian-logger@cc-marketplace
 
-# 再インストール
+# Reinstall
 /plugin install obsidian-logger@cc-marketplace
 ```
 
-### ディレクトリ構造
+### Directory Structure
 
 ```
 obsidian-logger/
 ├── .claude-plugin/
-│   └── plugin.json          # プラグインマニフェスト
+│   └── plugin.json          # Plugin manifest
 ├── hooks/
-│   └── hooks.json           # Hook設定
-├── scripts/                 # スクリプト
-│   └── append-to-daily-note.js  # メイン処理
-├── config.example.json      # 設定ファイルのサンプル
-├── package.json             # npm設定
-└── README.md                # このファイル
+│   └── hooks.json           # Hook configuration
+├── scripts/                 # Scripts
+│   └── append-to-daily-note.js  # Main processing
+├── config.example.json      # Sample configuration file
+├── package.json             # npm configuration
+└── README.md                # This file
 ```
 
-### Hook設定について
+### About Hook Configuration
 
-このプラグインは`hooks/hooks.json`で以下のようにStop hookを定義しています：
+This plugin defines a Stop hook in `hooks/hooks.json` as follows:
 
 ```json
 {
@@ -166,7 +166,7 @@ obsidian-logger/
 }
 ```
 
-`.claude-plugin/plugin.json`では、このhooks.jsonファイルを参照しています：
+`.claude-plugin/plugin.json` references this hooks.json file:
 
 ```json
 {
@@ -174,14 +174,14 @@ obsidian-logger/
 }
 ```
 
-- **Stop**: Claude Codeのセッション終了時に実行されるイベント
-- **matcher**: `.*` で全ての停止イベントにマッチ
-- **command**: スクリプトを実行（`${CLAUDE_PLUGIN_ROOT}`は自動的にプラグインのルートディレクトリに展開されます）
+- **Stop**: Event that executes when Claude Code session ends
+- **matcher**: `.*` matches all stop events
+- **command**: Executes the script (`${CLAUDE_PLUGIN_ROOT}` is automatically expanded to the plugin's root directory)
 
-## ライセンス
+## License
 
 MIT
 
-## 作者
+## Author
 
 kadoppe
