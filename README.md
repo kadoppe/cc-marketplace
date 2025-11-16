@@ -1,105 +1,105 @@
 # cc-marketplace
 
-kadoppeのClaude Codeプラグインマーケットプレイス
+kadoppe's Claude Code Plugin Marketplace
 
-## 概要
+## Overview
 
-このリポジトリは、Claude Code用のカスタムプラグインを提供するマーケットプレイスです。
+This repository is a marketplace that provides custom plugins for Claude Code.
 
-## 利用可能なプラグイン
+## Available Plugins
 
 ### obsidian-logger
 
-Claude Codeの作業内容をObsidianのDaily Noteに自動記録するプラグインです。セッション終了時に、Stop hookを使って作業内容を自動的にObsidian vaultのDaily Noteに追記します。
+A plugin that automatically logs Claude Code work sessions to Obsidian Daily Notes. When a session ends, it uses a Stop hook to automatically append the work summary to the Daily Note in your Obsidian vault.
 
-- **バージョン**: 0.1.0
-- **機能**: Stop hook による自動ログ記録
-- **詳細**: [obsidian-logger/README.md](./obsidian-logger/README.md)
+- **Version**: 0.1.0
+- **Features**: Automatic logging via Stop hook
+- **Details**: [obsidian-logger/README.md](./obsidian-logger/README.md)
 
-## インストール
+## Installation
 
-### 1. マーケットプレイスを追加
+### 1. Add the Marketplace
 
-Claude Codeで以下のコマンドを実行してこのマーケットプレイスを追加します:
+Run the following command in Claude Code to add this marketplace:
 
 ```bash
 /plugin marketplace add /Users/kadoppe/Sources/github.com/kadoppe/cc-marketplace
 ```
 
-または、GitHubからクローンした場合:
+Or, if cloned from GitHub:
 
 ```bash
 /plugin marketplace add ./cc-marketplace
 ```
 
-### 2. プラグインをインストール
+### 2. Install a Plugin
 
 ```bash
 /plugin install obsidian-logger@cc-marketplace
 ```
 
-### 3. インストール済みプラグインの確認
+### 3. Verify Installed Plugins
 
 ```bash
 /plugin list
 ```
 
-## 開発
+## Development
 
-### 新しいプラグインの追加
+### Adding a New Plugin
 
-1. `plugins/`ディレクトリ内に新しいプラグインディレクトリを作成:
+1. Create a new plugin directory inside the `plugins/` directory:
 
 ```bash
 mkdir -p plugins/my-new-plugin/.claude-plugin
 cd plugins/my-new-plugin
 ```
 
-2. `.claude-plugin/plugin.json`を作成してプラグインマニフェストを定義
+2. Create `.claude-plugin/plugin.json` to define the plugin manifest
 
-3. 必要なコンポーネント（commands、agents、skills、scripts等）をプラグインルートに追加
+3. Add necessary components (commands, agents, skills, scripts, etc.) to the plugin root
 
-4. `.claude-plugin/marketplace.json`にプラグイン情報を追加
+4. Add plugin information to `.claude-plugin/marketplace.json`
 
-### プラグインの更新
+### Updating a Plugin
 
-プラグインを更新した場合:
+When you update a plugin:
 
-1. プラグインをアンインストール:
+1. Uninstall the plugin:
    ```bash
    /plugin uninstall plugin-name@cc-marketplace
    ```
 
-2. 再インストール:
+2. Reinstall:
    ```bash
    /plugin install plugin-name@cc-marketplace
    ```
 
-## マーケットプレイス構造
+## Marketplace Structure
 
 ```
 cc-marketplace/
 ├── .claude-plugin/
-│   └── marketplace.json      # マーケットプレイスのメタデータ
-├── README.md                 # このファイル
-├── .gitignore                # Git除外設定
+│   └── marketplace.json      # Marketplace metadata
+├── README.md                 # This file
+├── .gitignore                # Git exclusion settings
 └── plugins/
-    └── obsidian-logger/      # プラグイン
+    └── obsidian-logger/      # Plugin
         ├── .claude-plugin/
-        │   └── plugin.json   # プラグインマニフェスト
+        │   └── plugin.json   # Plugin manifest
         ├── hooks/
-        │   └── hooks.json    # Hook設定
-        ├── scripts/          # スクリプト
-        │   └── append-to-daily-note.js  # メイン処理
-        ├── config.example.json  # 設定ファイルのサンプル
-        ├── package.json      # npm設定
-        └── README.md         # プラグインのドキュメント
+        │   └── hooks.json    # Hook configuration
+        ├── scripts/          # Scripts
+        │   └── append-to-daily-note.js  # Main processing
+        ├── config.example.json  # Sample configuration file
+        ├── package.json      # npm configuration
+        └── README.md         # Plugin documentation
 ```
 
-## ライセンス
+## License
 
 MIT
 
-## 作者
+## Author
 
 kadoppe
