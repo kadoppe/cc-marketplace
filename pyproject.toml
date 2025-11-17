@@ -1,0 +1,41 @@
+[project]
+name = "cc-marketplace"
+version = "0.1.0"
+description = "kadoppe's Claude Code plugin marketplace"
+requires-python = ">=3.9"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "ruff>=0.8.0",
+    "ty",
+]
+
+[tool.ruff]
+# Use default target-version (latest stable Python)
+target-version = "py39"
+
+# Line length set to 100 (slightly longer than default 88 for long variable names)
+line-length = 100
+
+[tool.ruff.lint]
+# Use recommended rules (close to default)
+select = ["ALL"]
+
+# Only ignore rules that conflict with formatter or are too opinionated
+ignore = [
+    "COM812", # missing-trailing-comma (conflicts with formatter)
+    "ISC001", # single-line-implicit-string-concatenation (conflicts with formatter)
+    "T201",   # print statements (needed for CLI scripts - consider logging in the future)
+    "D203",   # one-blank-line-before-class (conflicts with D211)
+    "D213",   # multi-line-summary-second-line (conflicts with D212)
+]
+
+[tool.ruff.format]
+# Use default formatting style
+quote-style = "double"
+indent-style = "space"
+
+[tool.ty]
+# ty configuration (Astral's type checker)
+# Using default settings for strict type checking
