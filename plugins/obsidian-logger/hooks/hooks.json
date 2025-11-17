@@ -1,13 +1,14 @@
 {
-  "Stop": [
-    {
-      "matcher": ".*",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/append-to-daily-note.py"
-        }
-      ]
-    }
-  ]
+  hooks: {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/append-to-daily-note.py"
+          }
+        ]
+      }
+    ]
+  }
 }
