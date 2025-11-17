@@ -5,6 +5,5 @@
   "author": {
     "name": "kadoppe",
     "email": "kkadowakix@gmail.com"
-  },
-  "hooks": "./hooks/hooks.json"
+  }
 }
