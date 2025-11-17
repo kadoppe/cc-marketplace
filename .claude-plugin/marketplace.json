@@ -1,7 +1,10 @@
 {
   "name": "cc-marketplace",
   "description": "kadoppe's Claude Code plugin marketplace",
-  "author": "kadoppe",
+  "owner": {
+    "name": "kadoppe",
+    "email": "kkadowakix@gmail.com"
+  },
   "plugins": [
     {
       "name": "obsidian-logger",
