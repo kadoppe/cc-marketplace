@@ -1,12 +1,12 @@
 {
   "name": "cc-marketplace",
-  "description": "kadoppeのClaude Codeプラグインマーケットプレイス",
+  "description": "kadoppe's Claude Code plugin marketplace",
   "author": "kadoppe",
   "plugins": [
     {
       "name": "obsidian-logger",
       "source": "./plugins/obsidian-logger",
-      "description": "Claude Codeの作業内容をObsidianのDaily Noteに自動記録するプラグイン",
+      "description": "A plugin to automatically log Claude Code work sessions to Obsidian Daily Notes",
       "version": "0.1.0"
     }
   ]

@@ -1,7 +1,7 @@
 {
   "name": "obsidian-logger",
   "version": "0.1.0",
-  "description": "Claude Codeの作業内容をObsidianのDaily Noteに自動記録するプラグイン",
+  "description": "A plugin to automatically log Claude Code work sessions to Obsidian Daily Notes",
   "author": "kadoppe",
   "commands": [],
   "agents": [],
