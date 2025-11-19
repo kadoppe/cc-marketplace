@@ -102,6 +102,10 @@ def summarize_with_claude(transcript_content: str) -> str:
 """
         full_prompt = prompt + transcript_content
 
+        # Set environment variable to prevent infinite loop
+        env = os.environ.copy()
+        env["CC_OBSIDIAN_LOGGER_RUNNING"] = "true"
+
         # Run claude -p command
         result = subprocess.run(
             ["claude", "-p", full_prompt],
@@ -109,6 +113,7 @@ def summarize_with_claude(transcript_content: str) -> str:
             text=True,
             timeout=60,
             check=True,
+            env=env,
         )
 
         return result.stdout.strip()
@@ -173,6 +178,11 @@ def append_to_daily_note(config: dict[str, str | bool], summary: str) -> None:
 
 def main() -> None:
     """Run the main script logic."""
+    # Prevent infinite loop: exit early if already running
+    if os.environ.get("CC_OBSIDIAN_LOGGER_RUNNING") == "true":
+        print("Script already running, skipping to prevent infinite loop", file=sys.stderr)
+        sys.exit(0)
+
     try:
         config = load_config()
 
