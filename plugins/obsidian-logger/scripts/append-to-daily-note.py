@@ -75,13 +75,17 @@ def get_working_directory() -> str:
 
 
 def read_transcript_file(transcript_path: str) -> str:
-    """Read transcript JSON file and return its content as formatted string."""
+    """Read transcript JSONL file and return its content as formatted string."""
     try:
+        transcript_lines = []
         with open(transcript_path, encoding="utf-8") as f:
-            transcript_data = json.load(f)
+            for line in f:
+                line = line.strip()
+                if line:  # Skip empty lines
+                    transcript_lines.append(json.loads(line))
 
         # Format the transcript data as a readable string
-        return json.dumps(transcript_data, ensure_ascii=False, indent=2)
+        return json.dumps(transcript_lines, ensure_ascii=False, indent=2)
     except (OSError, json.JSONDecodeError) as e:
         print(f"Error reading transcript file: {e}", file=sys.stderr)
         raise
@@ -116,7 +120,10 @@ def summarize_with_claude(transcript_content: str) -> str:
         print(f"stderr: {e.stderr}", file=sys.stderr)
         raise
     except FileNotFoundError:
-        print("Error: claude command not found. Please ensure claude is installed and in PATH.", file=sys.stderr)
+        print(
+            "Error: claude command not found. Please ensure claude is installed and in PATH.",
+            file=sys.stderr,
+        )
         raise
 
 
@@ -179,7 +186,10 @@ def main() -> None:
                 if not sys.stdin.isatty():
                     json_input = sys.stdin.read().strip()
                 else:
-                    print("Error: No input provided. Please provide JSON input via stdin or as arguments.", file=sys.stderr)
+                    print(
+                        "Error: No input provided. Please provide JSON input via stdin or as arguments.",
+                        file=sys.stderr,
+                    )
                     sys.exit(1)
             except OSError as e:
                 print(f"Error reading stdin: {e}", file=sys.stderr)
