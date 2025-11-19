@@ -25,48 +25,32 @@ This plugin automatically appends work summaries to Obsidian Daily Notes using a
 /plugin install obsidian-logger@cc-marketplace
 ```
 
-### 2. Create Configuration File
-
-Create a `config.json` file in the plugin directory:
-
-```bash
-cd ~/.claude/plugins/obsidian-logger
-cp config.example.json config.json
-```
-
-### 3. Edit Configuration File
-
-Edit `config.json` to configure your Obsidian vault path and other settings:
-
-```json
-{
-  "obsidianVaultPath": "/Users/yourusername/Documents/ObsidianVault",
-  "dailyNotesPath": "Daily Notes",
-  "dateFormat": "YYYY-MM-DD",
-  "templateHeader": "\n\n## Claude Code Session - {{timestamp}}\n\n",
-  "includeWorkingDirectory": true,
-  "includeGitBranch": true
-}
-```
-
-#### Configuration Options
-
-- `obsidianVaultPath`: Absolute path to your Obsidian vault (**required**)
-- `dailyNotesPath`: Path to Daily Notes folder (relative to vault)
-- `dateFormat`: Date format (default: `YYYY-MM-DD`)
-- `templateHeader`: Header template for session records
-- `includeWorkingDirectory`: Whether to record working directory (default: `true`)
-- `includeGitBranch`: Whether to record Git branch (default: `true`)
-
-### 4. Grant Execute Permission to Script
-
-```bash
-chmod +x ~/.claude/plugins/obsidian-logger/scripts/append-to-daily-note.py
-```
-
 ## Requirements
 
 - **Python 3.7+** (pre-installed on macOS 12.3 and later)
+
+## Environment Variables
+
+The plugin uses the following environment variables (automatically set from `config.json`):
+
+### Required
+
+- `CC_PLUGIN_OBSIDIAN_LOGGER_VAULT_PATH`: Absolute path to your Obsidian vault
+
+### Optional
+
+- `CC_PLUGIN_OBSIDIAN_LOGGER_DAILY_NOTES_PATH`: Path to Daily Notes folder (relative to vault)
+  - Default: `"Daily Notes"`
+- `CC_PLUGIN_OBSIDIAN_LOGGER_DATE_FORMAT`: Date format for Daily Note filenames
+  - Default: `"YYYY-MM-DD"`
+- `CC_PLUGIN_OBSIDIAN_LOGGER_TEMPLATE_HEADER`: Header template for session records
+  - Default: `"\n\n## Claude Code Session - {{timestamp}}\n\n"`
+  - Use `{{timestamp}}` as a placeholder for the current time
+- `CC_PLUGIN_OBSIDIAN_LOGGER_INCLUDE_WORKING_DIRECTORY`: Whether to record working directory
+  - Default: `"true"`
+  - Accepts: `"true"` or `"false"`
+
+> **Note**: You typically don't need to set these environment variables manually. The plugin automatically reads settings from `config.json` and converts them to environment variables.
 
 ## Usage
 

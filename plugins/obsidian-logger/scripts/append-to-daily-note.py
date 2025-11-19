@@ -4,7 +4,9 @@
 
 from __future__ import annotations
 
+import json
 import os
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -72,6 +74,52 @@ def get_working_directory() -> str:
         return "Unknown"
 
 
+def read_transcript_file(transcript_path: str) -> str:
+    """Read transcript JSON file and return its content as formatted string."""
+    try:
+        with open(transcript_path, encoding="utf-8") as f:
+            transcript_data = json.load(f)
+
+        # Format the transcript data as a readable string
+        return json.dumps(transcript_data, ensure_ascii=False, indent=2)
+    except (OSError, json.JSONDecodeError) as e:
+        print(f"Error reading transcript file: {e}", file=sys.stderr)
+        raise
+
+
+def summarize_with_claude(transcript_content: str) -> str:
+    """Summarize transcript content using claude -p command."""
+    try:
+        # Prepare the prompt for claude
+        prompt = """以下のClaude Codeセッションのトランスクリプトを簡潔に要約してください。
+主要な変更点、追加された機能、修正されたバグなどを箇条書きで記載してください。
+
+トランスクリプト:
+"""
+        full_prompt = prompt + transcript_content
+
+        # Run claude -p command
+        result = subprocess.run(
+            ["claude", "-p", full_prompt],
+            capture_output=True,
+            text=True,
+            timeout=60,
+            check=True,
+        )
+
+        return result.stdout.strip()
+    except subprocess.TimeoutExpired:
+        print("Error: claude command timed out", file=sys.stderr)
+        raise
+    except subprocess.CalledProcessError as e:
+        print(f"Error running claude command: {e}", file=sys.stderr)
+        print(f"stderr: {e.stderr}", file=sys.stderr)
+        raise
+    except FileNotFoundError:
+        print("Error: claude command not found. Please ensure claude is installed and in PATH.", file=sys.stderr)
+        raise
+
+
 def create_session_summary(config: dict[str, str | bool], conversation_summary: str) -> str:
     """Create session summary."""
     timestamp = get_timestamp()
@@ -121,23 +169,49 @@ def main() -> None:
     try:
         config = load_config()
 
-        # Get conversation summary from stdin or command line arguments
+        # Get JSON input from stdin or command line arguments
+        json_input = ""
         if len(sys.argv) > 1:
-            conversation_summary = " ".join(sys.argv[1:])
+            json_input = " ".join(sys.argv[1:])
         else:
             # Try to read from stdin
             try:
                 if not sys.stdin.isatty():
-                    conversation_summary = sys.stdin.read().strip()
+                    json_input = sys.stdin.read().strip()
                 else:
-                    conversation_summary = "Claude Code session completed."
-            except OSError:
-                conversation_summary = "Claude Code session completed."
+                    print("Error: No input provided. Please provide JSON input via stdin or as arguments.", file=sys.stderr)
+                    sys.exit(1)
+            except OSError as e:
+                print(f"Error reading stdin: {e}", file=sys.stderr)
+                sys.exit(1)
 
+        # Parse JSON input to get transcript_path
+        try:
+            input_data = json.loads(json_input)
+            transcript_path = input_data.get("transcript_path")
+
+            if not transcript_path:
+                print("Error: transcript_path not found in input JSON", file=sys.stderr)
+                sys.exit(1)
+
+            print(f"Reading transcript from: {transcript_path}", file=sys.stderr)
+
+        except json.JSONDecodeError as e:
+            print(f"Error parsing JSON input: {e}", file=sys.stderr)
+            sys.exit(1)
+
+        # Read transcript file
+        transcript_content = read_transcript_file(transcript_path)
+
+        # Summarize with claude -p command
+        print("Generating summary with claude...", file=sys.stderr)
+        conversation_summary = summarize_with_claude(transcript_content)
+
+        # Create and append summary to daily note
         summary = create_session_summary(config, conversation_summary)
         append_to_daily_note(config, summary)
 
-    except (OSError, KeyError, ValueError) as e:
+    except (OSError, KeyError, ValueError, subprocess.SubprocessError) as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
 
